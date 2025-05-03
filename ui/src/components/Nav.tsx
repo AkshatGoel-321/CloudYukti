@@ -117,7 +117,6 @@ const Navbar: React.FC = () => {
               <span>Loading...</span>
             ) : session ? (
               <>
-                <AuthButton href="/admin/cctv-monitor">CCTV&apos;s DEN</AuthButton>
                 <AuthButton href="#" onClick={handleLogout}>Logout</AuthButton>
               </>
             ) : (
@@ -168,12 +167,10 @@ const Navbar: React.FC = () => {
                 <span>Loading...</span>
               ) : session ? (
                 <>
-                <AuthButton href="/">CCTV&apos;s DEN</AuthButton>
                 <AuthButton href="#" onClick={handleLogout}>Logout</AuthButton>
                 </>
               ) : (
                 <>
-                <AuthButton href="/">CCTV&apos;s DEN</AuthButton>
                   <AuthButton href="/sign-up">Register</AuthButton>
                 </>
               )}
