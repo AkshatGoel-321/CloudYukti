@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+import Image from 'next/image';
+
 
 interface SliderInputProps {
   label: string;
@@ -207,9 +209,18 @@ export default function Page() {
   return (
     <div className="p-6 min-h-screen py-16 bg-gray-50 pb-24">
       <Toaster />
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-        ☁️ AceCloud X CloudYukti GPU Recommender
-      </h1>
+      <div className="flex items-center justify-center mb-6">
+        <h1 className="text-3xl font-bold text-center text-gray-800 flex items-center gap-2">
+          <Image 
+            src="/logo.png"
+            alt="CloudYukti Logo"
+            width={40}
+            height={40}
+            className="object-contain"
+          /> 
+          AceCloud X CloudYukti GPU Recommender
+        </h1>
+      </div>
       
       <div className={`mx-auto ${result && result.recommendation ? 'grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl place-items-center' : 'max-w-2xl'}`}>
         {/* Form Container */}
