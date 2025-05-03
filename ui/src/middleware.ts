@@ -5,8 +5,8 @@ import { getToken } from 'next-auth/jwt'
 export async function middleware(request: NextRequest) {
     const token = await getToken({ req: request,secret: process.env.AUTH_SECRET });
     const url = request.nextUrl;
-    const publicRoutes = ['/', '/aboutus','/privacy-compliance',''];
-    const authRoutes = ['/admin/cctv-monitor', '/admin/dashboard','/image-analysis'];
+    const publicRoutes = ['/'];
+    const authRoutes = ['/yukti-bot', '/gpurecommender'];
 
     // Routes that should redirect to home if user is already authenticated
     const guestOnlyRoutes = ['/sign-in', '/sign-up'];
@@ -29,12 +29,7 @@ export const config = {
     matcher: [
         '/sign-in',
         '/sign-up',
-        '/admin/cctv-monitor',
-        '/admin/dashboard',
-        '/admin/image-analysis',
-        '/aboutus',
-        '/privacy-compliance',
-        '/workforce-safety',
-        '/case-studies'
+        '/yukti-bot',
+        '/gpurecommender',
     ],
 };

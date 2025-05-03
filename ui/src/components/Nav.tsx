@@ -17,9 +17,7 @@ import { useAuth } from '@/context/AuthContext';
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'Yukti Bot', href: '/yukti-bot' },
-  // { name: 'Features', href: '/' },
-  { name: 'Docs', href: '/' },
-  // { name: 'About', href: '/aboutus' },
+  { name: 'GPU Recommender', href: '/gpurecommender' },
 ];
 
 const Navbar: React.FC = () => {
