@@ -1,6 +1,10 @@
 ### Youtube Link: https://youtu.be/N5X2hod2xPI 
-# CloudYukti - GPU Recommendation System
+### CHATBOT  fastapi server Link: https://cloudyukti.onrender.com
+### Live Link: https://cloud-yukti.vercel.app/
+### PPT LINK : https://1drv.ms/p/c/F558045B7CF8077A/AQ5IjS-SPgVOtukh7RjKhcI?e=mFg6ZK&nav=eyJzSWQiOjMwOSwiY0lkIjoxMDI3ODkwMzk3fQ
+### VIDEO DRIVE : https://drive.google.com/file/d/1q16la5I_BLh1_-TPO-pxgfaMrxnsheTs/view?usp=drive_link
 
+# CloudYukti - GPU Recommendation System
 A Next.js-based intelligent GPU recommendation system powered by Groq LLM and AceCloud's GPU pricing API. Features real-time cost optimization suggestions and natural language interactions.
 
 ## Features
@@ -189,3 +193,4 @@ const response = await fetch('/api/yukti-bot', {
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
