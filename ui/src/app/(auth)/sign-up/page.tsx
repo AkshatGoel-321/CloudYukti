@@ -89,8 +89,8 @@ export default function SignUpPage() {
             Join CloudYukti
           </CardTitle>
           <CardDescription>
-            Create an account to access AI-powered CCTV analytics for crowd
-            management, crime prevention, and work monitoring.
+            Create an account to use the GPU Cost Optimizer & Recommender.<br />
+            Input your workload needs, fetch real-time GPU pricing, and receive tailored, cost-efficient cloud recommendations for your AI/ML and compute projects.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>

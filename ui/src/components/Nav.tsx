@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -16,27 +14,12 @@ import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
-// Define navigation items with categories
 const navItems = [
   { name: 'Home', href: '/' },
-  {
-    category: 'Features',
-    items: [
-      { name: 'Image Analyzer', href: '/image-analysis' },
-      { name: 'Admin Dashboard', href: '/admin/dashboard' },
-      { name: 'WorkForce Safety', href: '/workforce-safety' },
-    ],
-  },
-  {
-    category: 'More',
-    items: [
-      { name: 'About Us', href: '/aboutus' },
-      { name: 'Settings', href: '/settings' },
-      { name: 'Our Team', href: '/our-team' },
-      { name: 'Privacy & Policies', href: '/privacy-compliance' },
-    ],
-  },
-  
+  { name: 'Yukti Bot', href: '/yukti-bot' },
+  // { name: 'Features', href: '/' },
+  { name: 'Docs', href: '/' },
+  // { name: 'About', href: '/aboutus' },
 ];
 
 const Navbar: React.FC = () => {
@@ -75,11 +58,10 @@ const Navbar: React.FC = () => {
     }, 1000);
   };
 
-
   const NavLink: React.FC<{ item: any; onClick?: () => void }> = ({ item, onClick }) => (
     <Link
       href={item.href}
-      className="px-4 py-2 text-sm font-medium text-white hover:text-cyan-500 transition-colors duration-300"
+      className="px-4 py-2 text-sm font-medium text-gray-800 hover:text-blue-600 transition-colors duration-300"
       onClick={onClick}
     >
       {item.name}
@@ -89,7 +71,7 @@ const Navbar: React.FC = () => {
     <Link
       href={href}
       onClick={onClick}
-      className="px-4 py-2 text-sm font-medium text-white bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-300 rounded"
+      className="px-4 py-2 text-sm font-medium text-gray-800 bg-gray-100 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 rounded"
     >
       {children}
     </Link>
@@ -98,13 +80,13 @@ const Navbar: React.FC = () => {
   const NavDropdown: React.FC<{ category: string; items: any[] }> = ({ category, items }) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="px-4 py-2 text-sm font-medium rounded-xl text-white hover:text-cyan-500">
+        <Button variant="ghost" className="px-4 py-2 text-sm font-medium rounded-xl text-gray-800 hover:text-blue-600">
           {category} <ChevronDown className="ml-1 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="bg-gray-800 border-gray-700 rounded-xl">
+      <DropdownMenuContent className="bg-white border-gray-200 rounded-xl">
         {items.map((item) => (
-          <DropdownMenuItem key={item.name} className="hover:bg-gray-700 rounded-xl">
+          <DropdownMenuItem key={item.name} className="hover:bg-blue-50 rounded-xl">
             <NavLink item={item} />
           </DropdownMenuItem>
         ))}
@@ -117,10 +99,10 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-gradient-to-r from-black to-gray-900 shadow-md' : 'bg-transparent'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-white/80 backdrop-blur'} border-b border-gray-200`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <Link href="/" className="font-bold text-xl text-white">
+          <Link href="/" className="font-bold text-xl text-blue-700">
             CloudYukti
           </Link>
           <div className="hidden md:flex items-center space-x-4">
@@ -151,7 +133,7 @@ const Navbar: React.FC = () => {
             onClick={toggleSidebar}
             variant="ghost"
             size="icon"
-            className="md:hidden text-cyan-200 hover:text-cyan-300"
+            className="md:hidden text-blue-700 hover:text-blue-900"
             aria-label="Toggle menu"
           >
             {isSidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -159,14 +141,14 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       {isSidebarOpen && (
-        <div className="fixed inset-0 bg-black/50 z-40" onClick={closeSidebar}>
+        <div className="fixed inset-0 bg-black/30 z-40" onClick={closeSidebar}>
           <div
-            className="fixed right-0 top-0 h-full w-64 bg-gray-800 shadow-lg z-50 overflow-y-auto"
+            className="fixed right-0 top-0 h-full w-64 bg-white shadow-lg z-50 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-end p-4">
               <Button onClick={closeSidebar} variant="ghost" size="icon">
-                <X className="h-6 w-6 text-cyan-200" />
+                <X className="h-6 w-6 text-blue-700" />
               </Button>
             </div>
             <nav className="flex flex-col space-y-4 p-4">

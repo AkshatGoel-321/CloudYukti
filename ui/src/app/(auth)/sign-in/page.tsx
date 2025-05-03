@@ -58,11 +58,11 @@ export default function SignInPage() {
       <Card className="w-full max-w-md shadow-lg border-primary">
         <CardHeader>
           <CardTitle className="text-primary text-2xl font-bold">
-            Login to the CloudYukti&apos;s Den
+            Login to CloudYukti
           </CardTitle>
           <CardDescription>
-            Access advanced AI-powered CCTV analytics for crowd management,
-            crime prevention, and work monitoring.
+            Access the GPU Cost Optimizer & Recommender platform.<br />
+            Find the best-fit GPU cloud instances for your AI/ML workloads, compare costs, and get clear, contextual recommendations powered by AceCloud’s real-time pricing and knowledge base.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
