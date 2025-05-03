@@ -16,12 +16,12 @@ export default function HomePage() {
             <span className="text-blue-600 font-medium">Save costs, maximize performance, and get clear recommendations—powered by AceCloud’s real-time pricing and knowledge base.</span>
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-4 mb-8">
-            <Link href="/optimizer">
+            <Link href="/gpurecommender">
               <Button className="bg-blue-600 text-white font-semibold px-8 py-3 rounded hover:bg-blue-500 transition">
                 Get Started
               </Button>
             </Link>
-            <Link href="/aboutus">
+            <Link href="/yukti-bot">
               <Button variant="outline" className="border-blue-600 text-blue-600 font-semibold px-8 py-3 rounded hover:bg-blue-600 hover:text-white transition">
                 Learn More
               </Button>

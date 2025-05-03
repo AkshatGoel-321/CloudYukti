@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import Image from 'next/image';
-
+import { AnimatedBackground } from "@/components/AnimatedBG";
+import { motion } from "framer-motion";
 
 interface SliderInputProps {
   label: string;
@@ -208,10 +209,19 @@ export default function Page() {
 
   return (
     <div className="p-6 min-h-screen py-16 bg-gray-50 pb-24">
+      <AnimatedBackground />
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="p-6 min-h-screen py-16 pb-24"
+      >
       <Toaster />
       <div className="flex items-center justify-center mb-6">
-        <h1 className="text-3xl font-bold text-center text-gray-800 flex items-center gap-2">
-          <Image 
+      <motion.h1 
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            className="text-3xl md:text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500 flex items-center gap-2"
+          >          <Image 
             src="/logo.png"
             alt="CloudYukti Logo"
             width={40}
@@ -219,12 +229,17 @@ export default function Page() {
             className="object-contain"
           /> 
           AceCloud X CloudYukti GPU Recommender
-        </h1>
+      </motion.h1>
       </div>
       
       <div className={`mx-auto ${result && result.recommendation ? 'grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl place-items-center' : 'max-w-2xl'}`}>
         {/* Form Container */}
-        <div className={`${result && result.recommendation ? 'w-full' : 'mx-auto'}`}>
+        <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className={`${result && result.recommendation ? 'w-full sticky top-6' : 'mx-auto'}`}
+          >          
           <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
             <div>
               <label htmlFor="os" className="block text-sm font-medium text-gray-700 mb-1">Operating System</label>
@@ -353,11 +368,15 @@ export default function Page() {
               </Button>
             </div>
           </form>
-        </div>
+        </motion.div>
 
         {/* Results Container */}
-        <div className="space-y-6 w-full flex flex-col items-center">
-          {error && (
+        <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
+            className="space-y-6 w-full flex flex-col items-center"
+          >          {error && (
             <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-md text-center w-full">
               <p><strong>Error:</strong> {error}</p>
               {error.includes('No GPUs found matching your criteria') && (
@@ -388,8 +407,9 @@ export default function Page() {
               )}
             </>
           )}
-        </div>
+        </motion.div>
       </div>
+      </motion.div>
     </div>
   );
 }
