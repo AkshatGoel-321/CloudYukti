@@ -20,4 +20,4 @@ rawData.data.forEach(instance => {
     });
 });
 
-fs.writeFileSync('training-data.jsonl', structuredData.map(entry => JSON.stringify(entry)).join('\n'));
+fs.writeFileSync('training-data.jsonl', structuredData.map(entry => JSON.stringify(entry)).join('\n')); 
