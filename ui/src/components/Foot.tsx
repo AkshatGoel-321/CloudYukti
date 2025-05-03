@@ -14,7 +14,7 @@ export default function Footer() {
         {/* Quick Links */}
         <div className="flex space-x-6">
           <Link href="/yukti-bot" className="hover:text-blue-700 text-sm">Yukti-Bot</Link>
-          <Link href="/gpuecommender" className="hover:text-blue-700 text-sm">GPU-Recommender</Link>
+          <Link href="/gpurecommender" className="hover:text-blue-700 text-sm">GPU-Recommender</Link>
           {/* <Link href="/docs" className="hover:text-blue-700 text-sm">Docs</Link> */}
         </div>
         {/* Social */}

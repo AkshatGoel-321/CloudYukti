@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -24,7 +25,7 @@ const Navbar: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { loading } = useAuth(); 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   
   useEffect(() => {
