@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 
 const gpuInstances = [
   { resource_class: 'T4', vcpus: 4, ram: 16, price_per_hour: 0.35, region: 'us-central' },
@@ -7,26 +7,49 @@ const gpuInstances = [
   { resource_class: 'V100', vcpus: 8, ram: 32, price_per_hour: 1.80, region: 'asia-south' },
 ];
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { gpu, workload, budget } = req.body;
+export async function POST(request: Request) {
+  try {
+    const { gpu, workload, budget } = await request.json();
 
-    const selected = gpuInstances.find(g => g.resource_class.toLowerCase() === gpu.toLowerCase());
-    if (!selected) return res.status(404).json({ error: 'GPU not found' });
+    const selected = gpuInstances.find(g => 
+      g.resource_class.toLowerCase() === gpu.toLowerCase()
+    );
 
-    const suggestions = gpuInstances.filter(inst =>
-      inst.price_per_hour < selected.price_per_hour &&
-      inst.vcpus >= selected.vcpus - 2 &&
-      inst.ram >= selected.ram - 8 &&
-      (!budget || inst.price_per_hour <= parseFloat(budget))
-    ).map(inst => ({
-      gpu: inst.resource_class,
-      price_per_hour: inst.price_per_hour,
-      region: inst.region,
-      why: `Cheaper for ${workload} with comparable compute.`,
-    }));
+    if (!selected) {
+      return NextResponse.json(
+        { error: 'GPU not found' },
+        { status: 404 }
+      );
+    }
 
-    return res.status(200).json({ selected, suggestions });
+    const suggestions = gpuInstances
+      .filter(inst =>
+        inst.price_per_hour < selected.price_per_hour &&
+        inst.vcpus >= selected.vcpus - 2 &&
+        inst.ram >= selected.ram - 8 &&
+        (!budget || inst.price_per_hour <= parseFloat(budget))
+      )
+      .map(inst => ({
+        gpu: inst.resource_class,
+        price_per_hour: inst.price_per_hour,
+        region: inst.region,
+        why: `Cheaper for ${workload} with comparable compute.`,
+      }));
+
+    return NextResponse.json({ 
+      selected: {
+        gpu: selected.resource_class,
+        price_per_hour: selected.price_per_hour,
+        region: selected.region,
+        why: 'Currently selected GPU'
+      }, 
+      suggestions 
+    });
+  } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
-  res.status(405).end();
 }
