@@ -4,7 +4,8 @@ import React, { useState, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Zap, Check, MapPin, Clock, CreditCard } from 'lucide-react';
-
+import { AnimatedBackground } from "@/components/AnimatedBG";
+import { motion } from "framer-motion";
 
 export default function YuktiBotPage() {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
@@ -71,6 +72,7 @@ export default function YuktiBotPage() {
   
       return (
         <div className="space-y-4">
+          
           <p className="text-gray-700">{recommendation.intro}</p>
           <Card className="p-4 bg-gradient-to-r from-blue-50 to-white border-blue-100">
             <div className="space-y-3">
@@ -106,8 +108,13 @@ export default function YuktiBotPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-800">
       {/* Yukti Bot Hero Section */}
-      <section className="flex flex-col justify-center items-center px-4 pt-24 bg-gradient-to-bl from-white to-blue-100">
-        <div className="max-w-2xl w-full text-center mx-auto">
+      <AnimatedBackground />
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col justify-center items-center px-4 pt-24 pb-12"
+      >        <div className="max-w-2xl w-full text-center mx-auto">
           <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500 mb-4">
             Yukti Bot – Your Cloud GPU AI Assistant
           </h1>
@@ -116,11 +123,15 @@ export default function YuktiBotPage() {
             <span className="text-blue-600 font-medium">Powered by AceCloud’s real-time knowledge base and LLM.</span>
           </p>
         </div>
-      </section>
+      </motion.section>
 
       {/* Chat Section */}
-      <section className="flex-1 flex flex-col items-center justify-center px-4 py-8 bg-gradient-to-tl from-white to-blue-100">
-        <div className="w-full max-w-xl bg-white rounded-xl shadow-lg flex flex-col h-[70vh] border border-gray-200">
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="flex-1 flex flex-col items-center justify-center px-4 py-8"
+      >        <div className="w-full max-w-xl bg-white rounded-xl shadow-lg flex flex-col h-[70vh] border border-gray-200">
           <div className="flex items-center px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-white rounded-t-xl">
             <span className="text-xl font-bold text-blue-700">Yukti Bot</span>
             <span className="ml-2 text-xs text-gray-400">AI Assistant for GPU Selection</span>
@@ -146,26 +157,35 @@ export default function YuktiBotPage() {
           </div>
           <form
             onSubmit={handleSubmit}
-            className="flex items-center border-t border-gray-200 px-4 py-3 bg-white rounded-b-xl"
+            className="flex items-center border-t border-gray-200 px-4 py-3 bg-white/80 backdrop-blur-sm rounded-b-xl"
           >
             <input
-              className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+              className="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 bg-white/80 backdrop-blur-sm"
               type="text"
               placeholder="Ask about GPU selection, pricing, or cost optimization…"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
             />
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               type="submit"
-              className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+              className="ml-2 px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all disabled:opacity-50"
               disabled={loading}
             >
-              {loading ? "..." : "Send"}
-            </button>
+              {loading ? (
+                <div className="flex items-center space-x-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Thinking...</span>
+                </div>
+              ) : (
+                'Send'
+              )}
+            </motion.button>
           </form>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }
