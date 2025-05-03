@@ -1,36 +1,190 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CloudYukti - GPU Recommendation System
 
-## Getting Started
+A Next.js-based intelligent GPU recommendation system powered by Groq LLM and AceCloud's GPU pricing API. Features real-time cost optimization suggestions and natural language interactions.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 🤖 AI-powered GPU recommendations using Groq LLM
+- 💰 Real-time pricing from AceCloud's API
+- 💬 Interactive chatbot interface
+- 🔄 Server-Sent Events (SSE) for streaming responses
+- 🎯 Semantic search for GPU matching
+- 📊 Cost optimization suggestions
+- 🌐 Integration with FastAPI backend
+
+## System Architecture
+
+```mermaid
+graph LR
+    A[Next.js Frontend] --> B[API Routes]
+    B --> C[FastAPI Server]
+    C --> D[Groq LLM API]
+    C --> E[AceCloud Pricing API]
+    C --> F[GPU Embeddings]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js 18.x or later
+- Python 3.9+ (for FastAPI server)
+- MongoDB running locally
+- Groq API key
+- AceCloud API access
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+### 1. Clone the Repository
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+git clone https://github.com/AnshJain9159/CloudYukti
+cd CloudYukti
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Frontend Setup (Next.js)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+cd ui
+npm install
+```
 
-## Deploy on Vercel
+Create `.env.local` file in the `ui` directory:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+MONGODB_URI=mongodb://localhost:27017/CloudYukti
+AUTH_SECRET="your_auth_secret" 
+GROQ_API_KEY=your_groq_api_key
+FASTAPI_URL=http://localhost:8000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3. Backend Setup (FastAPI)
+
+```bash
+cd server
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux/Mac
+source venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+Create `.env` file in the `server` directory:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+```
+
+## Running the Application
+
+### 1. Start the FastAPI Server
+
+```bash
+cd server
+uvicorn server:app --reload
+```
+
+The FastAPI server will run on `http://localhost:8000`
+
+### 2. Start the Next.js Development Server
+
+```bash
+cd ui
+npm run dev
+```
+
+The frontend will be available at `http://localhost:3000`
+
+## Project Structure
+
+```
+CloudYukti/
+├── ui/                     # Next.js frontend
+│   ├── src/
+│   │   ├── app/           # Next.js 13+ app directory
+│   │   │   ├── api/       # API routes
+│   │   │   │   └── yukti-bot/route.ts
+│   │   │   │   └── gpu-recommender/route.ts
+│   │   │   └── (root)/
+│   │   │       └── yukti-bot/
+│   │   └── components/    # React components
+│   └── public/            # Static assets
+└── server/                # FastAPI backend
+    ├── server.py          # Main server file
+    └── requirements.txt   # Python dependencies
+```
+
+## API Routes
+
+### Frontend API (Next.js)
+
+- `POST /api/yukti-bot`
+  - Handles chat interactions
+  - Streams responses from FastAPI
+
+### Backend API (FastAPI)
+
+- `POST /recommend`
+  - Processes GPU recommendations
+  - Integrates with Groq and AceCloud
+
+## Environment Variables
+
+### Frontend (.env.local)
+
+| Variable | Description |
+|----------|-------------|
+| MONGODB_URI | MongoDB connection string |
+| AUTH_SECRET | Authentication secret key |
+| GROQ_API_KEY | Groq API key |
+| FASTAPI_URL | FastAPI server URL |
+
+### Backend (.env)
+
+| Variable | Description |
+|----------|-------------|
+| GROQ_API_KEY | Groq API key |
+
+## Usage Example
+
+```typescript
+// Example chat interaction
+const response = await fetch('/api/yukti-bot', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    messages: [{
+      role: 'user',
+      content: 'Recommend a GPU under ₹2000/hour for deep learning in Mumbai'
+    }]
+  })
+});
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Troubleshooting
+
+### Common Issues
+
+1. **FastAPI Connection Error**
+   - Verify FastAPI server is running
+   - Check FASTAPI_URL in .env.local
+
+2. **Groq API Issues**
+   - Verify GROQ_API_KEY is valid
+   - Check API rate limits
+
+3. **Streaming Issues**
+   - Ensure proper SSE handling
+   - Check network connectivity
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
