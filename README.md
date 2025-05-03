@@ -82,7 +82,7 @@ GROQ_API_KEY=your_groq_api_key
 
 ```bash
 cd server
-uvicorn server:app --reload
+uvicorn main:app --reload
 ```
 
 The FastAPI server will run on `http://localhost:8000`

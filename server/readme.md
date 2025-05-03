@@ -54,7 +54,7 @@ This creates `gpu-embeddings.json` from your `converted.json`
 ## Running the Server
 
 ```bash
-uvicorn server:app --reload
+uvicorn main:app --reload
 ```
 Server will be available at http://localhost:8000
 
