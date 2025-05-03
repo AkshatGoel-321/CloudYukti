@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Zap, Check, MapPin, Clock, CreditCard } from 'lucide-react';
+
 
 export default function YuktiBotPage() {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
@@ -56,6 +60,48 @@ export default function YuktiBotPage() {
     }
     setLoading(false);
   };
+  const formatMessage = (content: string) => {
+    // Check if the message contains GPU recommendation
+    if (content.includes("Resource Name:")) {
+      const lines = content.split("*").filter(line => line.trim());
+      const recommendation = {
+        intro: lines[0],
+        details: lines.slice(1).map(line => line.trim())
+      };
+  
+      return (
+        <div className="space-y-4">
+          <p className="text-gray-700">{recommendation.intro}</p>
+          <Card className="p-4 bg-gradient-to-r from-blue-50 to-white border-blue-100">
+            <div className="space-y-3">
+              {recommendation.details.map((detail, index) => {
+                const [label, value] = detail.split(":").map(s => s.trim());
+                return (
+                  <div key={index} className="flex items-center space-x-2">
+                    {label === "Resource Name" && <Zap className="w-4 h-4 text-blue-600" />}
+                    {label === "Region" && <MapPin className="w-4 h-4 text-blue-600" />}
+                    {label === "GPU Description" && <Check className="w-4 h-4 text-blue-600" />}
+                    {label === "Price per hour" && <CreditCard className="w-4 h-4 text-blue-600" />}
+                    <span className="text-gray-600 font-medium">{label}:</span>
+                    <span className="text-gray-800">
+                      {label === "Price per hour" ? (
+                        <Badge variant="default" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
+                          {value.replace("INR", "").trim()}
+                        </Badge>
+                      ) : (
+                        value
+                      )}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </Card>
+        </div>
+      );
+    }
+    return <p className="text-gray-800">{content}</p>;
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-white text-gray-800">
@@ -86,14 +132,14 @@ export default function YuktiBotPage() {
                 className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`rounded-lg px-4 py-2 max-w-[80%] text-sm shadow ${
-                    msg.role === "user"
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-800 border border-blue-100"
-                  }`}
-                >
-                  {msg.content}
-                </div>
+  className={`rounded-lg px-4 py-2 max-w-[80%] text-sm shadow ${
+    msg.role === "user"
+      ? "bg-white text-gray-800"
+      : "bg-white text-gray-800 border border-blue-100"
+  }`}
+>
+  {formatMessage(msg.content)}
+</div>
               </div>
             ))}
             <div ref={messagesEndRef} />
