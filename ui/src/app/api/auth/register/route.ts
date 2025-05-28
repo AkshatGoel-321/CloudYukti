@@ -1,19 +1,22 @@
-// app/api/auth/register/route.ts
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
-// app/api/auth/register/route.ts
-import User from "@/models/User";  // Note the capital 'U'
+import User from "@/models/User";
+import { signUpSchema } from "@/schemas/signUp";
+
 export async function POST(req: Request) {
   try {
-    const { email, password, fullName } = await req.json();
+    const body = await req.json();
 
-    if (!email || !password || !fullName) {
+    const result = signUpSchema.safeParse(body);
+    if (!result.success) {
       return NextResponse.json(
-        { message: "Missing required fields" },
+        { message: "Invalid input", errors: result.error.flatten().fieldErrors },
         { status: 400 }
       );
     }
+
+    const { email, password, fullName } = result.data;
 
     await dbConnect();
 

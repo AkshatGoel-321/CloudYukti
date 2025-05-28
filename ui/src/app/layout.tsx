@@ -4,6 +4,7 @@ import "./globals.css";
 import ClientLayout from "@/helpers/ClientLayout";
 import { Providers } from "@/helpers/Providers";
 import { Toaster } from "@/components/ui/toaster"
+import { ThemeProvider } from "next-themes";
 const inter = Inter({ subsets: ["latin"] });
 
 
@@ -22,12 +23,14 @@ export default function RootLayout({
       <body
         className={`${inter.className} antialiased `}
       >
-        <Providers>
-          <ClientLayout>
-            {children}
-            <Toaster />
-          </ClientLayout>
-        </Providers>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            <Providers>
+                <ClientLayout>
+                  {children}
+                  <Toaster />
+                </ClientLayout>
+            </Providers>
+          </ThemeProvider>
       </body>
     </html>
   );

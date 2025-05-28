@@ -1,3 +1,6 @@
+/* eslint-disable prefer-const */
+// import { auth } from '@/auth';
+import { auth } from '@/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 const API_URL = 'https://dev-portal.openstack.acecloudhosting.com/api/v1/pricing?is_gpu=true&resource=instances';
@@ -35,10 +38,17 @@ type RecommendationResponse = {
 
 export async function POST(req: NextRequest) {
   try {
-    // 1. Get input from frontend
-    const { os, region, cpus, ram, budget } = await req.json();
+    const session = await auth(); // Get session using the auth() helper
+    console.log("API POST - Session from auth():", JSON.stringify(session, null, 2));
 
-    if (!os || !region || !cpus || !ram || !budget) {
+    // **CRITICAL: Uncomment and use this authorization check**
+    if (!session || !session.user?._id) {
+      console.log("API POST - Unauthorized: No session or user._id found.");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const { os, region, cpus, ram, budget,datasetSize } = await req.json();
+
+    if (!os || !region || !cpus || !ram || !budget || !datasetSize) {
       return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
     }
 
@@ -101,7 +111,7 @@ export async function POST(req: NextRequest) {
           afterSpecsFilter: specsFiltered.length,
           afterBudgetFilter: filteredGPUs.length
         }
-      }, { status: 404 });
+      }, { status: 200 });
     }
 
     // 4. Create prompt for LLM
@@ -122,6 +132,7 @@ User technical requirements:
 - Operating System: ${os}
 - Minimum vCPUs: ${cpus}
 - Minimum RAM: ${ram} GB
+- Dataset Size: ${datasetSize} GB
 - Budget: $${budget} per month
 
 ✅ Recommend the best option based on:

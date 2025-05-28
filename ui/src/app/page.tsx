@@ -1,79 +1,158 @@
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+"use client"
+
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { ArrowRight, CheckCircle, Cpu, CreditCard, Database } from "lucide-react"
+import { AnimatedBackground } from "@/components/AnimatedBG"
 
 export default function HomePage() {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 },
+  }
+
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-800">
-      
+    <div className="min-h-screen flex flex-col">
+      <AnimatedBackground />
+
       {/* Hero Section */}
-      <section className="flex-1 flex flex-col justify-center items-center px-4 py-24 bg-gradient-to-r from-white to-blue-100">
-        <div className="max-w-3xl w-full text-center mx-auto">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-500 mb-6">
+      <section className="flex-1 flex flex-col justify-center items-center px-4 py-24">
+        <motion.div
+          className="max-w-3xl w-full text-center mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.h1
+            className="text-4xl md:text-5xl font-extrabold gradient-text mb-6"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             GPU Cost Optimizer & Recommender for Cloud Workloads
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-10">
-            Instantly find the best-fit GPU cloud instance for your AI/ML, data, or compute workloads.<br />
-            <span className="text-blue-600 font-medium">Save costs, maximize performance, and get clear recommendations—powered by AceCloud’s real-time pricing and knowledge base.</span>
-          </p>
-          <div className="flex flex-col md:flex-row justify-center gap-4 mb-8">
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground mb-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            Instantly find the best-fit GPU cloud instance for your AI/ML, data, or compute workloads.
+            <br />
+            <span className="text-primary font-medium">
+              Save costs, maximize performance, and get clear recommendations—powered by AceCloud&apos;s real-time pricing
+              and knowledge base.
+            </span>
+          </motion.p>
+          <motion.div
+            className="flex flex-col md:flex-row justify-center gap-4 mb-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
             <Link href="/gpurecommender">
-              <Button className="bg-blue-600 text-white font-semibold px-8 py-3 rounded hover:bg-blue-500 transition">
+              <Button className="group bg-primary text-primary-foreground font-semibold px-8 py-6 rounded-lg hover:bg-primary/90 transition-all">
                 Get Started
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
             <Link href="/yukti-bot">
-              <Button variant="outline" className="border-blue-600 text-blue-600 font-semibold px-8 py-3 rounded hover:bg-blue-600 hover:text-white transition">
+              <Button
+                variant="outline"
+                className="border-primary text-primary font-semibold px-8 py-6 rounded-lg hover:bg-primary hover:text-primary-foreground transition-all"
+              >
                 Learn More
               </Button>
             </Link>
-          </div>
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-gray-500">
+          </motion.div>
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
             <span>#CloudOptimization</span>
             <span>#AI4Cloud</span>
             <span>#Hackathon2025</span>
             <span>#CostEfficiency</span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Features Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 border border-gray-200 rounded-lg text-center shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-bold text-blue-600 mb-2">Smart Workload Input</h3>
-            <p className="text-gray-600">
-              Enter your model type, dataset size, training/inference needs, budget, and region. The system tailors recommendations to your requirements.
+      <section className="py-16 px-4">
+        <motion.div
+          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.div variants={item} className="p-6 border rounded-lg text-center shadow card-hover bg-card">
+            <div className="flex justify-center mb-4">
+              <Database className="h-10 w-10 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-primary mb-2">Smart Workload Input</h3>
+            <p className="text-muted-foreground">
+              Enter your model type, dataset size, training/inference needs, budget, and region. The system tailors
+              recommendations to your requirements.
             </p>
-          </div>
-          <div className="p-6 border border-gray-200 rounded-lg text-center shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-bold text-blue-600 mb-2">Real-Time GPU Pricing</h3>
-            <p className="text-gray-600">
-              Instantly fetches up-to-date GPU instance specs and pricing from AceCloud’s public API for accurate, transparent cost comparisons.
+          </motion.div>
+          <motion.div variants={item} className="p-6 border rounded-lg text-center shadow card-hover bg-card">
+            <div className="flex justify-center mb-4">
+              <Cpu className="h-10 w-10 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-primary mb-2">Real-Time GPU Pricing</h3>
+            <p className="text-muted-foreground">
+              Instantly fetches up-to-date GPU instance specs and pricing from AceCloud&apos;s public API for accurate,
+              transparent cost comparisons.
             </p>
-          </div>
-          <div className="p-6 border border-gray-200 rounded-lg text-center shadow hover:shadow-lg transition">
-            <h3 className="text-xl font-bold text-blue-600 mb-2">Clear Recommendations</h3>
-            <p className="text-gray-600">
-              Get multiple instance options with detailed cost breakdowns, spot vs on-demand pricing, and contextual explanations—no guesswork.
+          </motion.div>
+          <motion.div variants={item} className="p-6 border rounded-lg text-center shadow card-hover bg-card">
+            <div className="flex justify-center mb-4">
+              <CheckCircle className="h-10 w-10 text-primary" />
+            </div>
+            <h3 className="text-xl font-bold text-primary mb-2">Clear Recommendations</h3>
+            <p className="text-muted-foreground">
+              Get multiple instance options with detailed cost breakdowns, spot vs on-demand pricing, and contextual
+              explanations—no guesswork.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-100 to-white text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4 text-blue-700">
-          Ready to optimize your cloud GPU costs?
-        </h2>
-        <p className="text-gray-700 mb-6">
-          Try our developer-friendly, scalable, and user-centric solution now.
-        </p>
-        <Link href="/optimizer">
-          <Button className="bg-blue-600 text-white font-semibold px-8 py-3 rounded hover:bg-blue-500 transition">
-            Start Optimizing
-          </Button>
-        </Link>
+      <section className="py-16 px-4 ">
+        <motion.div
+          className="max-w-3xl mx-auto text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-primary">Ready to optimize your cloud GPU costs?</h2>
+          <p className="text-muted-foreground mb-6">
+            Try our developer-friendly, scalable, and user-centric solution now.
+          </p>
+          <Link href="/gpurecommender">
+            <Button className="bg-primary text-primary-foreground font-semibold px-8 py-3 rounded-lg hover:bg-primary/90 transition-all">
+              Start Optimizing
+              <CreditCard className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </motion.div>
       </section>
     </div>
-  );
+  )
 }
