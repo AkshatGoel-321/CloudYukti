@@ -1,7 +1,7 @@
 ### Youtube Link: https://youtu.be/N5X2hod2xPI 
 ### CHATBOT  fastapi server Link: https://cloudyukti.onrender.com
 ### Live Link: https://cloud-yukti.vercel.app/
-### PPT LINK : https://1drv.ms/p/c/F558045B7CF8077A/AQ5IjS-SPgVOtukh7RjKhcI?e=mFg6ZK&nav=eyJzSWQiOjMwOSwiY0lkIjoxMDI3ODkwMzk3fQ
+### PPT LINK : https://www.canva.com/design/DAGlV10WFH8/MXN0FAdfOvf9aLXzHP60lA/edit?utm_content=DAGlV10WFH8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 ### VIDEO DRIVE : https://drive.google.com/file/d/1q16la5I_BLh1_-TPO-pxgfaMrxnsheTs/view?usp=drive_link
 
 # CloudYukti - GPU Recommendation System
