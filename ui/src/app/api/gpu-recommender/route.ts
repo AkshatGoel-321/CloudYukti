@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     console.log("API POST - Session from auth():", JSON.stringify(session, null, 2));
 
     // **CRITICAL: Uncomment and use this authorization check**
-    if (!session || !session.user?._id) {
+    if (!session || !session.user?.id) {
       console.log("API POST - Unauthorized: No session or user._id found.");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

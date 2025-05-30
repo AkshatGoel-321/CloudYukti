@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     console.log("API POST - Session from auth():", JSON.stringify(session, null, 2));
 
     // **CRITICAL: Uncomment and use this authorization check**
-    if (!session || !session.user?._id) {
+    if (!session || !session.user?.id) {
       console.log("API POST - Unauthorized: No session or user._id found.");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     }
 
     const request = await RequestModel.create({
-      userId: session.user._id, // Use _id from the session
+      userId: session.user.id, // Use _id from the session
       criteria: { os, budget, country, region, cpus, ram, vram },
     });
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.error("API POST - Error creating request:", error);
     // Check if the error might be due to session.user._id being undefined
-    if (error instanceof TypeError && error.message.toLowerCase().includes('_id')) {
+    if (error instanceof TypeError && error.message.toLowerCase().includes('id')) {
         console.error("API POST - Potential issue: session.user._id might have been undefined when creating RequestModel.");
     }
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
@@ -48,13 +48,13 @@ export async function GET(req: NextRequest) {
     const session = await auth(); // Get session
     console.log("API GET - Session from auth():", JSON.stringify(session, null, 2));
 
-    if (!session || !session.user?._id) {
+    if (!session || !session.user?.id) {
       console.log("API GET - Unauthorized: No session or user._id found.");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Use session.user._id consistently
-    const requests = await RequestModel.find({ userId: session.user._id }).sort({ createdAt: -1 });
+    const requests = await RequestModel.find({ userId: session.user.id }).sort({ createdAt: -1 });
 
     return NextResponse.json({ success: true, requests });
   } catch (error) {

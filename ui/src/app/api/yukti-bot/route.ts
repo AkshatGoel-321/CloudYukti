@@ -7,12 +7,12 @@ export async function POST(req: NextRequest) {
   try {
     const session = await auth(); 
 
-    if (!session || !session.user?._id) {
+    if (!session || !session.user?.id) {
       console.log("API /api/chat POST - Unauthorized: No session or session.user._id found. Session state:", JSON.stringify(session, null, 2));
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     
-    console.log("API /api/chat POST - Authorized. User ID:", session.user._id);
+    console.log("API /api/chat POST - Authorized. User ID:", session.user.id);
 
     const { messages } = await req.json();
     // Get the latest user message
