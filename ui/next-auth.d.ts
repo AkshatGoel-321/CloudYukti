@@ -8,7 +8,7 @@ declare module 'next-auth' {
      * In your `auth.ts`, `authorize` returns `{ id: string, name: string, email: string }`.
      */
     interface User extends DefaultNextAuthUser {
-        _id: string;    // Ensure id is always a string
+        id: string;    // Ensure id is always a string
         name: string;  // Ensure name is always a string
         email: string; // Ensure email is always a string
     }
@@ -19,7 +19,7 @@ declare module 'next-auth' {
     interface Session {
         user: {
             /** The user's unique identifier. */
-            _id: string;
+            id: string;
             /** The user's name. */
             name: string;
             /** The user's email address. */
@@ -35,7 +35,7 @@ declare module 'next-auth/jwt' {
      */
     interface JWT {
         /** The user's unique identifier. */
-        _id: string;
+        id: string;
         /** The user's name. */
         name: string;
         /** The user's email address. */

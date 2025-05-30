@@ -2,21 +2,22 @@
 import NextAuth, { User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import dbConnect from "@/lib/dbConnect";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import UserSchema from "@/models/User";
 import { signInSchema } from "./schemas/signIn";
+import client from "./lib/db";
+
 export const {
   handlers,
   signIn,
   signOut,
   auth
 } = NextAuth({
-  
-  session:{
+  adapter: MongoDBAdapter(client),
+  session: {
     strategy: "jwt",
     maxAge: 24 * 60 * 60,
     updateAge: 24 * 60 * 60,
-
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
@@ -27,11 +28,9 @@ export const {
         }
 
         try {
-          await dbConnect();
-         // Validate credentials using signInSchema
+          // Validate credentials using signInSchema
           const result = signInSchema.safeParse(credentials);
           if (!result.success) {
-            // Optionally, you can log or handle validation errors here
             return null;
           }
           const user = await UserSchema.findOne({
@@ -49,10 +48,11 @@ export const {
           );
           if (!isPasswordValid) return null;
 
+          // Return user object with id, name, email as strings
           return {
-            _id: user._id.toString(),
-            email: user.email,
+            id: user._id.toString(),
             name: user.fullName,
+            email: user.email,
           } as User;
         } catch (error) {
           console.error("Error during authentication:", error);
@@ -67,16 +67,18 @@ export const {
   },
   callbacks: {
     async jwt({ token, user }) {
+      // If user is returned from authorize, add its fields to the token
       if (user) {
-        token._id = user._id;
+        token.id = user.id ?? "";
         token.name = user.name ?? "";
         token.email = user.email ?? "";
       }
       return token;
     },
     async session({ session, token }) {
+      // Add id, name, email to session.user
       if (token && session.user) {
-        session.user._id = token._id as string;
+        session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
       }

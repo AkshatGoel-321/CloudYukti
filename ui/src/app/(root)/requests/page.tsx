@@ -8,18 +8,23 @@ import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast"
 
 export default function RequestsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+    const { toast } = useToast();
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.replace("/sign-in");
+    if (status !== "authenticated") {
+          toast({title:"You must be signed in to view this page."})
+          setTimeout(() => {
+              router.push("/sign-in");
+          }, 750);
     }
-    if (status === "authenticated") {
+    else if (status === "authenticated") {
       fetch("/api/gpu-request")
         .then(res => res.json())
         .then(data => {

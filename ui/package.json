@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.9.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@google/generative-ai": "^0.21.0",
@@ -33,6 +34,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.3.1",
     "lucide-react": "^0.474.0",
+    "mongodb": "^6.16.0",
     "mongoose": "^8.10.0",
     "moondream": "^0.0.5",
     "next": "15.1.6",
