@@ -1,7 +1,9 @@
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
-import User from "@/models/User";
+import UserSchema from "@/models/User";
 import { signUpSchema } from "@/schemas/signUp";
 
 export async function POST(req: Request) {
@@ -21,7 +23,7 @@ export async function POST(req: Request) {
     await dbConnect();
 
     // Check if user already exists
-    const existingUser = await User.findOne({ email });
+    const existingUser = await UserSchema.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
         { message: "User already exists" },
@@ -33,7 +35,7 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Create new user
-    const user = await User.create({
+    const user = await UserSchema.create({
       email,
       password: hashedPassword,
       fullName,
